@@ -34,7 +34,13 @@ namespace WebApp1
             services.AddDbContext<ShopContext>(options =>
                 options.UseInMemoryDatabase("Shop"));
 
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    // options.SuppressModelStateInvalidFilter = true;
+                });           
+                 
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp1", Version = "v1" });
