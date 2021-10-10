@@ -1,19 +1,48 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp1.Models;
 
 namespace WebApp1.Controllers
 {
-    [Route(" /[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly ShopContext _context;
+
+        //constructor - con dependency injection para recibir shopcontext
+        public ProductsController(ShopContext context)
+        {
+            _context = context;
+            
+            // chequea si la base de datos ha sido creada - sino nada pasa -sino se crea db in se llena con sample data 
+            _context.Database.EnsureCreated();
+        }
+
+
         [HttpGet]
-        public string GetProducts() {
-            return "OK";
+        public  async Task<IActionResult> GetAllProducts()
+        {
+            return Ok(await _context.Products.ToArrayAsync());
+        }
+
+        // para leer el id en la url - se puede de las dos maneras
+        //  [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
+       
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
     }
 }
