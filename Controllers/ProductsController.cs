@@ -10,7 +10,8 @@ using WebApp1.Models;
 
 namespace WebApp1.Controllers
 {
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("v{v:apiVersion}/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
