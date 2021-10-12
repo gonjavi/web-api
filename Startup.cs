@@ -38,7 +38,14 @@ namespace WebApp1
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     // options.SuppressModelStateInvalidFilter = true;
-                });           
+                });
+
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+            });
                  
 
             services.AddSwaggerGen(c =>
