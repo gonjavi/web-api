@@ -41,6 +41,17 @@ namespace WebApp1
                     // options.SuppressModelStateInvalidFilter = true;
                 });
 
+            // cors policy
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://localhost:44375")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            });
+
             // versioninig
             services.AddApiVersioning(options =>
             {
@@ -70,6 +81,11 @@ namespace WebApp1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // entre routing y endpoints se pone
+            app.UseCors();
+
+            // endpoints
 
             app.UseAuthorization();
 
