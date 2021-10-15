@@ -41,6 +41,23 @@ namespace WebApp1
                     // options.SuppressModelStateInvalidFilter = true;
                 });
 
+            // Authentication
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:51959";
+                    options.RequireHttpMetadata = false;
+
+                    options.Audience = "hps-api";
+
+                    options.TokenValidationParameters =
+                    new Microsoft.Identity.Tokens.TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    }
+                });
+             
+
             // cors policy
             services.AddCors(options =>
             {
@@ -86,6 +103,9 @@ namespace WebApp1
             app.UseCors();
 
             // endpoints
+
+            // add
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
